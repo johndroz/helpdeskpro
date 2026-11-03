@@ -2,14 +2,6 @@ const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const path = require('path');
-const { requireAuth } = require('./middleware/requireAuth');
-const { requireRole } = require('./middleware/requireRole');
-const appointmentModel = require("./models/appointmentModel");
-const userModel = require('./models/userModel');
-const roleModel = require('./models/roleModel');
-const appointmentStatusModel = require('./models/appointmentStatusModel');
-const intakeModel = require('./models/intakeModel');
-const {getDate, validatePassword} = require('./function')
 
 
 //settings for the express server
