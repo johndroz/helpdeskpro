@@ -18,42 +18,16 @@ app.use(session({
 
 // ROUTES UNPROTECTED
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
-
-app.get('/login', (req, res) => {
     //check if user is logged in.
     if(req.session && req.session.user){
         const role = req.session.user.role;
-        if(role == "Patient") return res.sendFile(path.join(__dirname, "pages/patients/patient-account.html"));
-        else if (role === 'Staff') return res.sendFile(path.join(__dirname, "pages/staff/staff-appointments-today.html"));
-        else if (role === 'Provider') return res.sendFile(path.join(__dirname, "pages/providers/providers-appointments-today.html"));
-        else if (role === 'Clinic Administrator') return res.sendFile(path.join(__dirname, "pages/admins/admins-appointments-today.html"));
+        if(role == "Employee") return res.sendFile(path.join(__dirname, ""));
+        else if (role === 'Staff') return res.sendFile(path.join(__dirname, ""));
+        else return res.sendFile(path.join(__dirname, "index.html"));
     }
     
     res.sendFile(path.join(__dirname, "pages/login.html"));
 });
-
-app.get('/signup', (req, res) => {
-    //check if user is logged in.
-    if(req.session && req.session.user){
-        const role = req.session.user.role;
-        if(role == "Patient") return res.sendFile(path.join(__dirname, "pages/patients/patient-account.html"));
-        else if (role === 'Staff') return res.sendFile(path.join(__dirname, "pages/staff/staff-appointments-today.html"));
-        else if (role === 'Provider') return res.sendFile(path.join(__dirname, "pages/providers/providers-appointments-today.html"));
-        else if (role === 'Clinic Administrator') return res.sendFile(path.join(__dirname, "pages/admins/admins-appointments-today.html"));
-    }
-    res.sendFile(path.join(__dirname, "pages/signup.html"));
-});
-
-//LOGGING OUT
-app.post("/logout", (req, res) => {
-    req.session.destroy(err => {
-      if (err) return res.status(500).send("Could not log out");
-      res.clearCookie("connect.sid");
-      res.redirect("/");
-    });
-  });
 
 // ROUTE FOR LOGIN AUTHENTICATION
 app.post('/login', async (req, res) => {
@@ -63,8 +37,6 @@ app.post('/login', async (req, res) => {
     if (!user || user.isActive == 0) {
         return res.redirect("/login?error=user")
     } 
-    //get roleName from roleID
-    const role = await roleModel.findRole(user.roleID);
 
     const passwordsMatch = await bcrypt.compare(password, user.passwordHash);
     if (!passwordsMatch){
@@ -76,37 +48,25 @@ app.post('/login', async (req, res) => {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      role: role.roleName
+      role: user.roleName
     };
     //redirect user based on role
-    if (role.roleName === 'Employee') return res.sendFile(path.join(__dirname, "pages/patients/patient-account.html"));
-    else if (role.roleName === 'Support') return res.sendFile(path.join(__dirname, "pages/staff/staff-appointments-today.html"));
+    if (role.roleName === 'Employee') return res.sendFile(path.join(__dirname, ""));
+    else if (role.roleName === 'Support') return res.sendFile(path.join(__dirname, ""));
     else res.redirect("/")
   });
 
-//ROUTE FOR SIGNUP FORM
+
+//LOGGING OUT
 /*
-app.post('/signup', async (req, res) => {
-    const { email, password, firstName, lastName} = req.body;
-    const existingUser = await userModel.findUserByEmail(email);
-    if (existingUser) {
-      return res.redirect("/signup?error=user")
-    }
-    if(validatePassword(password)){
-        res.redirect("/signup?error=pass")
-    }
-    const passwordHash = await bcrypt.hash(password, 12);
-    await userModel.createUser({email, passwordHash, firstName, lastName, roleID:1});
-    res.redirect('/login?signup=confirmed');
+app.post("/logout", (req, res) => {
+    req.session.destroy(err => {
+      if (err) return res.status(500).send("Could not log out");
+      res.clearCookie("connect.sid");
+      res.redirect("/");
+    });
   });
 */
-
-
-
-
-
-
-
 
 
 // set external port for express server
