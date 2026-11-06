@@ -23,15 +23,14 @@ app.get('/', (req, res) => {
         const role = req.session.user.role;
         if(role == "Employee") return res.sendFile(path.join(__dirname, ""));
         else if (role === 'Staff') return res.sendFile(path.join(__dirname, ""));
-        else return res.sendFile(path.join(__dirname, "index.html"));
     }
     
-    res.sendFile(path.join(__dirname, "pages/login.html"));
+    return res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // ROUTE FOR LOGIN AUTHENTICATION
 app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     const user = userModel.findUserByEmail(email);
     //send error as query parameters for failed logins to display to user
     if (!user || user.isActive == 0) {

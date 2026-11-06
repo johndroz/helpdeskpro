@@ -14,11 +14,29 @@
     </nav>
   </header>
   <main>
+    <h3>Log into HelpDeskPro below</h3>
+    <div id="error"></div>
+    <div id="feedback"></div>
+    <form id="login-form" name="login-form" action="/login" method="POST">
+        <div class="form-row">
+            <label for="username">Username</label>
+            <input id="username" name="username"></input>
+        </div>
+        <div class="form-row">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"></input> 
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
   </main>
 
   <!--FOOTER-->
   <footer>
     <p>&copy; 2026 HelpDeskPro</p>
   </footer>
+
+  <script>
+  </script>
 </body>
 </html>
