@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const path = require('path');
+const userModel = require('./models/userModel');
 
 
 //settings for the express server
@@ -21,8 +22,8 @@ app.get('/', (req, res) => {
     //check if user is logged in.
     if(req.session && req.session.user){
         const role = req.session.user.role;
-        if(role == "Employee") return res.sendFile(path.join(__dirname, ""));
-        else if (role === 'Staff') return res.sendFile(path.join(__dirname, ""));
+        if(role == "Employee") return res.sendFile(path.join(__dirname, "pages/employees/employee.html"));
+        else if (role === 'IT_Staff') return res.sendFile(path.join(__dirname, ""));
     }
     
     return res.sendFile(path.join(__dirname, "index.html"));
@@ -31,27 +32,25 @@ app.get('/', (req, res) => {
 // ROUTE FOR LOGIN AUTHENTICATION
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const user = userModel.findUserByEmail(email);
+    const user = userModel.findUserByUsername(username);
     //send error as query parameters for failed logins to display to user
-    if (!user || user.isActive == 0) {
-        return res.redirect("/login?error=user")
+    if (!user) {
+        return res.redirect("/?error=user")
     } 
 
-    const passwordsMatch = await bcrypt.compare(password, user.passwordHash);
-    if (!passwordsMatch){
-        return res.redirect("/login?error=invalid")
+    //const passwordsMatch = await bcrypt.compare(password, user.passwordHash);
+    if (password != user.password_hash){
+        return res.redirect("/?error=invalid")
     }
     //create session for successful login
     req.session.user = {
       userID: user.userID,
       email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      role: user.roleName
+      role: user.role
     };
     //redirect user based on role
-    if (role.roleName === 'Employee') return res.sendFile(path.join(__dirname, ""));
-    else if (role.roleName === 'Support') return res.sendFile(path.join(__dirname, ""));
+    if (user.role === 'Employee') return res.sendFile(path.join(__dirname, "pages/employees/employee.html"));
+    else if (user.role === 'IT_Staff') return res.sendFile(path.join(__dirname, ""));
     else res.redirect("/")
   });
 

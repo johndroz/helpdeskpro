@@ -37,6 +37,15 @@
   </footer>
 
   <script>
+    //get parameters
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+
+    //Elements to display feedback or errors
+    const feedbackBox = document.getElementById('feedback');
+    const errorBox = document.getElementById('error');
+    if(error == "user" || error == "invalid") errorBox.innerText = "Invalid username or password."
+
   </script>
 </body>
 </html>
