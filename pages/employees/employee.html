@@ -14,9 +14,53 @@
     </nav>
   </header>
   <main>
-    <h3>Employee Page</h3>
+    <h1>Employee Page</h1>
+    <div class="option-bar">
+      <a href="employees/tickets">View My Tickets</a>
+    </div>
     <div id="error"></div>
     <div id="feedback"></div>
+
+    <!-- SUPPORT REQUEST FORM -->
+    <h2>Create a Support Request</h2>
+    <form id="support-form" action="/employees/tickets/create" method="POST">
+      <div class="form-row">
+        <label for="title">Request Title</label>
+        <input type="text" id="title" name="title" maxlength="150" required>
+      </div>
+
+      <div class="form-row">
+        <label for="category_id">Category</label>
+        <select id="category_id" name="category_id" required>
+          <option value="" selected disabled>Select a category</option>
+          <option value="1">Hardware</option>
+          <option value="2">Software</option>
+          <option value="3">Network</option>
+          <option value="4">Access Control</option>
+          <option value="5">Email &amp; Messaging</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="priority">Priority</label>
+        <select id="priority" name="priority" required>
+          <option value="Low">Low</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="High">High</option>
+          <option value="Critical">Critical</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="8" maxlength="2000" required></textarea>
+      </div>
+
+      <div class="form-row">
+        <a href="/employees">Cancel</a>
+        <button type="submit">Submit Request</button>
+      </div>
+    </form>
 
   </main>
 

@@ -25,6 +25,7 @@ main {
 
   h1, h2, h3 {
     text-align: center;
+    margin: 1rem;
   }
 
   .red-border {
@@ -53,13 +54,27 @@ main {
   .form-row {
     display: grid;
     width: 100%;
-    justify-items: center;
     margin: 10px;
   }
 
-  .form-row input{
+  .form-row input {
     height: 1.75rem;
     width: 95%;
+    justify-self: center;
+  }
+
+  .form-row select {
+    height: 1.75rem;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .option-bar {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    min-width: 300px;
+    margin-bottom: 5%;
   }
 
 /* NAVIGATION */
@@ -98,4 +113,20 @@ nav {
     height: 2.5rem;
     margin: 20px;
     width: 50%;
+  }
+
+  /* EMPLOYEE PAGES */
+
+  #support-form {
+    display: grid;
+    width: 96%;
+    max-width: 750px;
+    text-align: center;
+  }
+
+  #support-form button {
+    height: 2.5rem;
+    margin: 20px;
+    width: 50%;
+    justify-self: center;
   }
