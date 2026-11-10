@@ -9,9 +9,9 @@ const { requireAuth } = require('./middleware/authenticate');
 //settings for the express server
 const app = express();
 require("dotenv").config();
-app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
+app.use(express.static("public", { index: false }));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,

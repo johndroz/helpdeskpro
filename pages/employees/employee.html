@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HelpDeskPro</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
   <header>
     <nav>
         <a href="/">HelpDeskPro</a>
+        <ul>
+          <li><a href="/employees/tickets">View My Tickets</a></li>
+      </ul>
     </nav>
   </header>
   <main>
     <h1>Employee Page</h1>
-    <div class="option-bar">
-      <a href="employees/tickets">View My Tickets</a>
-    </div>
     <div id="error"></div>
     <div id="feedback"></div>
 
@@ -57,8 +57,8 @@
       </div>
 
       <div class="form-row">
-        <a href="/employees">Cancel</a>
         <button type="submit">Submit Request</button>
+        <a href="/employees">Cancel</a>
       </div>
     </form>
 

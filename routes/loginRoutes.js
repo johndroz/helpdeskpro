@@ -7,12 +7,12 @@ const router = express.Router();
 //GET LOGIN FORM
 router.get('/', (req, res)=>{
     //check if user is logged in.
-    if(req.session && req.session.user){
+    if(req.session.user){
         const role = req.session.user.role;
         if(role == "Employee") return res.redirect("/employees");
         else if (role === 'IT_Staff') return res.redirect("/staff");
     }
-    return res.sendFile(path.join(__dirname, "../index.html"));
+    return res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 //POST FOR LOGIN FORM
@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
     }
     //create session for successful login
     req.session.user = {
-      userID: user.id,
+      userId: user.id,
       email: user.email,
       role: user.role
     };
