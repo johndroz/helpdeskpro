@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HelpDeskPro</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <header>
+    <nav>
+        <a href="/">HelpDeskPro</a>
+        <ul>
+            <li><a href="/staff">Search Tickets</a></li>
+        </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Open Tickets</h1>
+    <div id="error"></div>
+    <div id="feedback"></div>
+
+    <div id="tickets"></div>
+
+  </main>
+
+  <!--FOOTER-->
+  <footer>
+    <p>&copy; 2026 HelpDeskPro</p>
+  </footer>
+
+  <script>
+    //get parameters
+    const params = new URLSearchParams(window.location.search);
+    const update = params.get("error");
+
+    //Elements to display feedback or errors
+    const feedbackBox = document.getElementById('feedback');
+    const errorBox = document.getElementById('error');
+
+    //Get ticket details
+    const ticketSection = document.getElementById("tickets");
+    async function loadTickets(){
+      const res = await fetch(`/staff/api/tickets`);
+      const result = await res.json();
+      console.log(result);
+      
+      //Retrieve successfully logged in patient info
+      if(result.success){
+        ticketSection.innerHTML = result.tickets.map(ticket => {
+            if(ticket.status == "Open") return `
+            <section class="ticket-details-card left-align">
+                <div>
+                    <p>Created: ${ticket.created_at}</p>
+                    <p>Ticket ID: ${ticket.id} - ${ticket.title}</p>
+                    <ul>
+                        <li>Status: ${ticket.status}</li>
+                        <li>Category: ${ticket.category_name}</li>
+                        <li>Assigned to: ${ticket.assigned_to || "Not Assigned"}</li>
+                    </ul>
+                    <p>Description: ${ticket.description}</p>
+                </div>
+                <a href="/staff/tickets/details?id=${ticket.id}">View Details</a>
+            </section>
+        `
+        }).join('');
+      }
+      else{
+        feedbackBox.innerText = "Ticket not found."
+      }
+    }
+
+    loadTickets();
+
+  </script>
+</body>
+</html>

@@ -159,9 +159,57 @@ function findAllCategories() {
   return statement.all();
 }
 
+function findTicketsByStatus(status) {
+  const statement = db.prepare(`
+    SELECT
+      tickets.id,
+      tickets.title,
+      tickets.description,
+      tickets.status,
+      tickets.priority,
+      tickets.user_id,
+      tickets.category_id,
+      tickets.assigned_to,
+      tickets.created_at,
+      categories.name AS category_name
+    FROM tickets
+    JOIN categories
+      ON categories.id = tickets.category_id
+    WHERE tickets.status = ?
+    ORDER BY tickets.created_at DESC, tickets.id DESC
+  `);
+
+  return statement.all(status);
+}
+
+function findTickets() {
+  const statement = db.prepare(`
+    SELECT
+      tickets.id,
+      tickets.title,
+      tickets.description,
+      tickets.status,
+      tickets.priority,
+      tickets.user_id,
+      tickets.category_id,
+      tickets.assigned_to,
+      tickets.created_at,
+      categories.name AS category_name
+    FROM tickets
+    JOIN categories
+      ON categories.id = tickets.category_id
+    ORDER BY tickets.created_at DESC, tickets.id DESC
+  `);
+
+  return statement.all();
+}
+
+
 module.exports = {
   createTicket,
   findTicketById,
   findTicketsByUserId,
-  findAllCategories
+  findAllCategories,
+  findTicketsByStatus,
+  findTickets
 };

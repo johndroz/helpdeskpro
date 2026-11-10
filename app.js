@@ -19,7 +19,6 @@ app.use(session({
   }));
 
 
-
 // ROUTES
 app.use("/", loginRoutes);
 
